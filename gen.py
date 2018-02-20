@@ -22,6 +22,10 @@ def rank2(abv):
             r *= 1.5
         if abv[0] in "xz":
             r /= 1.5
+    if abv[0] == "y" and abv[1] in vowels:
+        r *= 1.5
+    if abv[0] in consts and abv[1] in consts and abv[0] in "f":
+        r /= 2
     return r
 
 def rank2i(abv):
@@ -30,13 +34,17 @@ def rank2i(abv):
 def rank3(abv):
     return max(
         rank2(abv[0:2]) * rank2i(abv[1:3]),
-        rank2i(abv[0:2]) * rank2(abv[1:3])
-    )
+        rank2i(abv[0:2]) * rank2(abv[1:3]),
+        rank2i(abv[0:2]) * 1.4 if abv[2] in consts else 0,
+        rank2(abv[1:3]) * 1.4 if abv[0] in consts else 0
+    ) / (1.5 if abv[0] == abv[2] and abv[0] in vowels else 1)
 
 def rank4(abv):
     r3 = rank3(abv[1:4])
     if abv[0] in vowels:
         r3 *= 1.8
+    elif abv[1] in vowels:
+        r3 *= 1.4
     r2a, r2b = rank2(abv[0:2]), rank2(abv[2:4])
     return max(r3, r2a, r2b)
 
