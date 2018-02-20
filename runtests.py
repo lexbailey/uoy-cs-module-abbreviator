@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import subprocess
+import gen
 
 tests = []
 with open("tests") as f:
@@ -15,7 +15,7 @@ for test in tests:
         continue
     target, fullname = test
     fullname = fullname.strip()
-    result = subprocess.check_output(["./gen.py", fullname]).decode('utf8').strip()
+    result = gen.main(fullname).strip()
     if result == target:
         print("Pass: %s - %s" % (target, fullname))
         passes += 1

@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 import sys
 import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument("name")
-args = parser.parse_args()
-
-name = args.name.lower()
-
 vowels = "aeiou"
 consts = "bcdfghjklmnpqrstvwxyz"
 
@@ -75,14 +69,19 @@ def possible_names(myname):
         if name != "":
             yield name
 
-bestname = None
-bestrank = 0
-for aname in possible_names(name):
-    rank = rank4(aname)
-    if rank > bestrank:
-        bestrank = rank
-        bestname = aname
-    #print("Name: %s, rank: %f" % (aname.upper(),rank4(aname)))
-#print()
-#print("Best name:")
-print(bestname.upper())
+def main(name):
+    name = name.lower()
+    bestname = None
+    bestrank = 0
+    for aname in possible_names(name):
+        rank = rank4(aname)
+        if rank > bestrank:
+            bestrank = rank
+            bestname = aname
+    return bestname.upper()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("name")
+    args = parser.parse_args()
+    print(main(args.name))
